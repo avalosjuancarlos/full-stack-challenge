@@ -25,10 +25,9 @@ const mockData = [{
 async function httpGetFilesNamesFromAPI () {
   try {
     const res = await axios.get(filesURL, filesAuthHeader)
-    console.log('response', res.data)
     return res.data.files || []
   } catch (err) {
-    console.error(err)
+    console.error('httpGetFilesNamesFromAPI -->', err.response)
     return []
   }
 }
@@ -43,17 +42,15 @@ async function httpGetFilesNamesFromAPI () {
 // file1.csv,d,6173,f9e1bcdb9e3784acc448af34f4727252
 async function httpGetAllFilesDataFromAPI (files = []) {
   const filesData = []
-  console.log('httpGetAllFilesDataFromAPI -> files', files)
   for (const file of files) {
-    console.log('foreach -> file', file)
     const data = await httpGetFilesDataFromAPI(file)
     const cleanData = cleanFileData(file, data)
-    console.log('cleanData', cleanData)
+
     if (cleanData !== null) {
       filesData.push(cleanData)
     }
   }
-  console.log('filesData', filesData)
+
   return filesData
 }
 
@@ -62,11 +59,10 @@ async function httpGetFilesDataFromAPI (file) {
     const URL = `${fileURL}/${file}`
 
     const res = await axios.get(URL, fileAuthHeader)
-    console.log('url', URL)
-    console.log('response', res.data)
+
     return res.data
   } catch (err) {
-    console.error(err.status)
+    console.error('httpGetFilesDataFromAPI -->', err.response)
     return null
   }
 }
@@ -96,7 +92,6 @@ function cleanFileData (file, data) {
   }
 
   for (let i = 0; i < headers.length; i++) {
-    console.log('validHeaders', validHeaders[i])
     if (headers[i].trim() !== validHeaders[i]) {
       return null
     }
