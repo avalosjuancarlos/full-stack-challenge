@@ -1,9 +1,9 @@
-const express = require('express');
+const express = require('express')
 
-const filesRouter = require('./files/files.router');
+const filesRouter = require('./files/files.router')
 
-const api = express.Router();
+const api = express.Router()
 
-api.use('/files', filesRouter);
+api.use('/files', filesRouter)
 
-module.exports = api;
+module.exports = api
